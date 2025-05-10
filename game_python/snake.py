@@ -18,7 +18,7 @@ HEIGHT = 400
 
 # Snake settings
 SNAKE_BLOCK = 10
-SNAKE_SPEED = 15
+SNAKE_SPEED = 10
 
 # Initialize game window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -57,6 +57,38 @@ def display_score(score):
 def display_message(msg, color, x, y):
     message = font_style.render(msg, True, color)
     screen.blit(message, [x, y])
+
+def draw_thorns():
+    thorn_size = 8
+    # Draw thorns on top and bottom walls
+    for x in range(0, WIDTH, 20):
+        # Top wall thorns
+        pygame.draw.polygon(screen, RED, [
+            (x, 0),
+            (x + 10, 10),
+            (x + 20, 0)
+        ])
+        # Bottom wall thorns
+        pygame.draw.polygon(screen, RED, [
+            (x, HEIGHT),
+            (x + 10, HEIGHT - 10),
+            (x + 20, HEIGHT)
+        ])
+    
+    # Draw thorns on left and right walls
+    for y in range(0, HEIGHT, 20):
+        # Left wall thorns
+        pygame.draw.polygon(screen, RED, [
+            (0, y),
+            (10, y + 10),
+            (0, y + 20)
+        ])
+        # Right wall thorns
+        pygame.draw.polygon(screen, RED, [
+            (WIDTH, y),
+            (WIDTH - 10, y + 10),
+            (WIDTH, y + 20)
+        ])
 
 def game_loop():
     game_over = False
@@ -112,6 +144,7 @@ def game_loop():
         y += y_change
         screen.fill(BLUE)
         draw_border()
+        draw_thorns()
         draw_food(food_x, food_y, SNAKE_BLOCK)
         
         snake_head = []
